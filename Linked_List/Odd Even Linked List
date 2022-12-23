@@ -1,0 +1,84 @@
+Given the head of a singly linked list, group all the nodes with odd indices together followed by the nodes with even indices, and return the reordered list.
+
+The first node is considered odd, and the second node is even, and so on.
+
+Note that the relative order inside both the even and odd groups should remain as it was in the input.
+
+You must solve the problem in O(1) extra space complexity and O(n) time complexity.
+
+Example 1:
+Input: head = [1,2,3,4,5]
+Output: [1,3,5,2,4]
+Example 2:
+
+Input: head = [2,1,3,5,6,4,7]
+Output: [2,3,6,7,1,5,4]
+ 
+Constraints:
+The number of nodes in the linked list is in the range [0, 104].
+-106 <= Node.val <= 106
+
+Solution: 
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* oddEvenList(ListNode* head) {
+        if(head == NULL){
+            return NULL;
+        }
+        if(head->next == NULL){
+            return head;
+        }
+        ListNode *evenhead = NULL, *eventail = NULL, *oddhead = NULL, *oddtail = NULL;
+        ListNode *temp = head;
+        int i = 1; // take i value as 1 since we have to group indexes at 1,3,5,7 and then 2,4,6,8.
+        //************** same question as even after odd************************
+        while(temp != NULL){
+            if(i%2 == 0){
+                if(evenhead == NULL){
+                    evenhead = temp;
+                    eventail = temp;
+                    i++;
+                }
+                else{
+                    eventail->next = temp;
+                    eventail = temp;
+                    i++;
+                }
+            }
+            else{
+                if(oddhead == NULL){
+                    oddhead = temp;
+                    oddtail = temp;
+                    i++;
+                }
+                else{
+                    oddtail->next = temp;
+                    oddtail = temp;
+                    i++;
+                }
+            }
+            temp = temp->next;
+        }
+        if(oddhead == NULL){
+            return evenhead;
+        }
+        else{
+            oddtail->next = evenhead;
+        }
+        if(evenhead != NULL){
+            eventail->next = NULL;
+        }
+        return oddhead;
+    }
+};
