@@ -1,0 +1,50 @@
+void getmin(node *root, int *min)
+{
+    if (root == NULL)
+    {
+        return;
+    }
+    if (*min > root->data)
+    {
+        *min = root->data;
+    }
+    getmin(root->left, min);
+    getmin(root->right, min);
+}
+void getmax(node *root, int *max)
+{
+    if (root == NULL)
+    {
+        return;
+    }
+    if (*max < root->data)
+    {
+        *max = root->data;
+    }
+    getmax(root->left, max); // for self recursive fn there's no need to pass *max, for that we will need
+    // double pointer, just when passing value from one fn to another by reference then we have to use *.
+    getmax(root->right, max);
+}
+pair<int, int> getans(node *root)
+{
+    pair<int, int> p = {0, 0};
+    if (root == NULL)
+    {
+        return p;
+    }
+    int min = INT_MAX;
+    int max = INT_MIN;
+    getmin(root, &min);
+    getmax(root, &max);
+    p = {min, max};
+    return p;
+}
+int main()
+{
+    int arr[] = {1, 2, 3, 4, 5, 6, 6, 6, 6};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    node *root = takeinput(arr, 0, n);
+    pair<int, int> p = getans(root);
+    cout << "MIN = " << p.first << "Max = " << p.second << endl;
+    return 0;
+}
