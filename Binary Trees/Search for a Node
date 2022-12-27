@@ -1,0 +1,25 @@
+bool searchfornode(node *root, int key)
+{
+    if (root == NULL)
+    {
+        return false;
+    }
+    if (root->data == key)
+    {
+        return true;
+    }
+    bool res1 = searchfornode(root->left, key);
+    if (res1)
+    {
+        return true;
+    }
+    bool res2 = searchfornode(root->right, key);
+    if (res2)
+    {
+        return true;
+    }
+    else
+    {
+        return false; //don't give this false statement in res1 because the element can be at right of the tree.
+    }
+}
