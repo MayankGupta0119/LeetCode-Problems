@@ -1,0 +1,70 @@
+/**********************************************************
+	Following is the Binary Tree Node class structure
+
+	template <typename T>
+	class BinaryTreeNode {
+    	public : 
+    	T data;
+    	BinaryTreeNode<T> *left;
+    	BinaryTreeNode<T> *right;
+
+    	BinaryTreeNode(T data) {
+        	this -> data = data;
+        	left = NULL;
+        	right = NULL;
+    	}
+	};
+
+***********************************************************/
+
+#include <vector>
+#include <queue>
+vector<vector<int>> zigZagTraversal(BinaryTreeNode<int> *root){
+    	vector<vector<int>> result; // each level is stored as a vector inside vector result
+    	if(root == NULL)
+    	    return result;
+    	
+    	queue<BinaryTreeNode<int> *> q;
+    	q.push(root);
+    	
+    	bool leftToRight = true;
+    	
+    	while(!q.empty()) {
+    	    
+    	    int size = q.size();
+    	    vector<int> ans(size);
+    	    
+    	    //Level Process
+    	    for(int i=0; i<size; i++) { // it will run for each element in a level to take its left and right nodes
+    	        
+    	        BinaryTreeNode<int> * frontNode = q.front();
+    	        q.pop();
+    	        
+    	        //normal insert or reverse insert 
+    	        int index = leftToRight ? i : size - i - 1;// if lefttoright is true then index = i else index = size-i-1
+    	        ans[index] = frontNode -> data;
+    	        
+    	        if(frontNode->left)
+    	            q.push(frontNode -> left);
+    	            
+    	        if(frontNode->right)
+    	            q.push(frontNode -> right);
+    	    }
+    	    
+    	    //direction change karni h
+    	    leftToRight = !leftToRight;
+            result.push_back(ans);
+        }
+    	return result;
+}
+void zigZagOrder(BinaryTreeNode<int> *root)
+{
+    vector<vector<int>> ans = zigZagTraversal(root);
+    for(auto it : ans){
+            for(int j = 0;j<it.size();j++){
+                cout<<it[j]<<" ";
+            }
+            cout<<endl;
+        }
+
+}
