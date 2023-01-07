@@ -1,0 +1,25 @@
+Given a Binary Search Tree and two integers k1 and k2, find and print the elements which are in range k1 and k2 (both inclusive).
+Print the elements in increasing order.
+
+Solution:
+
+void elementsInRangeK1K2(BinaryTreeNode<int> *root, int k1, int k2)
+{
+    if(root == NULL){
+        return;
+    }
+    if(root->data >= k1 && root->data <= k2){ // this is when rootdata is between range so that element can be at left subtree and also
+    // at right subtree, therefore first call on left, then print, then call on right
+        elementsInRangeK1K2(root->left,k1,k2);
+        cout<<root->data<<" ";
+        elementsInRangeK1K2(root->right,k1,k2);
+    }
+    else if(root->data <= k1){// this is when rootdata is less than lowerlimit then all element which we want in the given range 
+    // will be at rightsubtree, therefore make call on right subtree
+        elementsInRangeK1K2(root->right,k1,k2);
+    }
+    else if(root->data >= k2){// when rootdata is greater than higher limit then all elements wil be on left subtree, therefore
+    // make call on left subtree.
+        elementsInRangeK1K2(root->left,k1,k2);
+    }
+}
