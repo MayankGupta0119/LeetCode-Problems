@@ -1,0 +1,121 @@
+// implementing suffix tries
+#include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
+class trienode
+{
+public:
+    char data;
+    trienode **children;
+    trienode(char data)
+    {
+        this->data = data;
+        children = new trienode *[26];
+        for (int i = 0; i < 26; i++)
+        {
+            children[i] = NULL;
+        }
+    }
+};
+class suffixtrie
+{
+    trienode *root;
+
+public:
+    suffixtrie()
+    {
+        root = new trienode('\0');
+    }
+    void insertword(trienode *root, string word)
+    {
+        if (word.size() == 0)
+        {
+            return;
+        }
+        int index = word[0] - 'a';
+        trienode *child;
+        if (root->children[index] != NULL)
+        {
+            child = root->children[index];
+        }
+        else
+        {
+            child = new trienode(word[0]);
+            root->children[index] = child;
+        }
+        insertword(child, word.substr(1));
+    }
+    void insert(string word)
+    {
+        insertword(root, word);
+    }
+    bool searchword(trienode *root, string word)
+    {
+        if (word.length() == 0)
+        {
+            return true;
+        }
+        trienode *child;
+        int index = word[0] - 'a';
+        if (root->children[index] != NULL)
+        {
+            child = root->children[index];
+        }
+        else
+        {
+            return false;
+        }
+        return searchword(child, word.substr(1));
+    }
+    bool search(string word)
+    {
+        return searchword(root, word);
+    }
+    bool patternMatching(vector<string> v, string pattern)
+    {
+        for (int i = 0; i < v.size(); i++)
+        {
+            if (v.at(i) != "")
+            {
+                insert(v.at(i));
+                // cout << "value  = " << v.at(i) << endl;
+                v.push_back((v.at(i)).substr(1));
+                // cout << "substr pushed = " << (v.at(i)).substr(1) << endl;
+            }
+            else
+            {
+                break;
+            }
+        }
+        return search(pattern);
+    }
+};
+int main()
+{
+    suffixtrie st;
+    string s;
+    vector<string> v;
+    cout << "enter the number of words in list" << endl;
+    int n;
+    cin >> n;
+    cout << "enter words one by one :" << endl;
+    for (int i = 0; i < n; i++)
+    {
+        cin >> s;
+        v.push_back(s);
+    }
+    cout << "enter pattern you want to search: " << endl;
+    string pattern;
+    cin >> pattern;
+    bool result = st.patternMatching(v, pattern);
+    if (result)
+    {
+        cout << "yes its present" << endl;
+    }
+    else
+    {
+        cout << "the given pattern dosen't match" << endl;
+    }
+    return 0;
+}
