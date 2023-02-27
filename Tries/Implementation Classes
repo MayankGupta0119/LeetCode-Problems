@@ -1,0 +1,76 @@
+#include <iostream>
+#include <string>
+using namespace std;
+class trienode
+{
+public:
+    char data;
+    trienode **children;
+    bool isterminal;
+    trienode(char data)
+    {
+        this->data = data;
+        children = new trienode *[26];
+        for (int i = 0; i < 26; i++)
+        {
+            children[i] = NULL;
+        }
+        isterminal = false;
+    }
+};
+class trie
+{
+    trienode *root;
+
+public:
+    trie()
+    {
+        root = new trienode('\0');
+    }
+    void insert(string word)
+    {
+        insertword(root, word);
+    }
+    void insertword(trienode *root, string word)
+    {
+        if (word.length() == 0)
+        {
+            root->isterminal = true;
+            return;
+        }
+        int index = word[0] - 'a';
+        trienode *child;
+        if (root->children[index] != NULL)
+        {
+            child = root->children[index];
+        }
+        else
+        {
+            child = new trienode(word[0]);
+            root->children[index] = child;
+        }
+        insertword(child, word.substr(1));
+    }
+    bool searchword(trienode *root, string word)
+    {
+        if (word.length() == 0)
+        {
+            return root->isterminal;
+        }
+        int index = word[0] - 'a';
+        trienode *child;
+        if (root->children[index] != NULL)
+        {
+            child = root->children[index];
+        }
+        else
+        {
+            return false;
+        }
+        return searchword(child, word.substr(1));
+    }
+    bool search(string word)
+    {
+        return searchword(root, word);
+    }
+};
