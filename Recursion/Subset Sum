@@ -1,0 +1,38 @@
+Given an array of N integers , print sums of all subset in it.Output should be in increasing order.
+
+
+Code: 
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+void getsubsets(int idx, int n, int sum, vector<int> v, vector<int> &subsets)
+{
+    if (idx == n)
+    {
+        subsets.push_back(sum);
+        return;
+    }
+    getsubsets(idx + 1, n, sum + v.at(idx), v, subsets);
+    getsubsets(idx + 1, n, sum, v, subsets);
+}
+int main()
+{
+    int n;
+    cin >> n;
+    vector<int> v;
+    for (int i = 0; i < n; i++)
+    {
+        int x;
+        cin >> x;
+        v.push_back(x);
+    }
+    vector<int> subsets;
+    getsubsets(0, n, 0, v, subsets);
+    sort(subsets.begin(), subsets.end());
+    for (auto it : subsets)
+    {
+        cout << it << endl;
+    }
+}
