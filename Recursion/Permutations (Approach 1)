@@ -1,0 +1,33 @@
+Given an array nums of distinct integers, return all the possible permutations. You can return the answer in any order.
+
+Approach 1 (Not that good):
+
+Code:
+
+#include <vector>
+class Solution {
+public:
+    void getpermut(vector<int> ds, vector<vector<int>> &ans,vector<int> nums, int *arr){
+        if(ds.size() == nums.size()){
+            ans.push_back(ds);
+            return;
+        }
+        for(int i = 0;i<nums.size();i++){
+            if(arr[i] != 1){
+                arr[i] = 1;
+                ds.push_back(nums.at(i));
+                getpermut(ds,ans,nums,arr);
+                arr[i] = 0;
+                ds.pop_back();
+            }
+        }
+    }
+    vector<vector<int>> permute(vector<int>& nums) {
+        vector<int> ds;
+        vector<vector<int>> ans;
+        int n = nums.size();
+        int *arr = new int[n];
+        getpermut(ds,ans,nums,arr);
+        return ans;
+    }
+};
