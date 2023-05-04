@@ -1,0 +1,38 @@
+You are given weights and values of N items. You have to select and put these selected items in a knapsack of capacity W.
+Select the items in such a way that selected items give the maximum total value possible with given capacity of the knapsack.
+
+Code:
+
+#include<bits/stdc++.h>
+using namespace std;
+static bool cmp(pair<pair<double,double>,double> a, pair<pair<double,double>,double> b){
+    return a.second > b.second;
+}
+int main(){
+    int n,w_kp;
+    cin>>n>>w_kp;
+    vector<pair<pair<double,double>,double>> vec;
+    for(int i = 0;i<n;i++){
+        double v,w;
+        cin>>v>>w;
+        double vperw = double(v/w);
+        pair<pair<double,double>,double> p = make_pair(make_pair(v,w),vperw);
+        vec.push_back(p);
+    }
+    sort(vec.begin(),vec.end(),cmp);
+    double currweight = 0;
+    double finalvalue = 0;
+    for(int i = 0;i<n;i++){
+        if(currweight+vec.at(i).first.second <= w_kp){
+            currweight += vec.at(i).first.second;
+            finalvalue += vec.at(i).first.first;
+        }
+        else{
+            double remain = w_kp-currweight;
+            finalvalue += vec.at(i).first.first*((double)remain/(double)vec.at(i).first.second);
+            break;
+        }
+    }
+    cout<<fixed<<setprecision(6)<<finalvalue<<endl;
+    return 0;
+}
