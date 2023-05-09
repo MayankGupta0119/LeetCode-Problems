@@ -1,0 +1,55 @@
+#include <iostream>
+#include <climits>
+#include <algorithm>
+#include <vector>
+using namespace std;
+int getmaxsum(vector<int> v, int s, int e)
+{
+    if (s == e)
+    {
+        return v.at(s);
+    }
+    int mid = s + (e - s) / 2;
+    int leftmaxsum = getmaxsum(v, 0, mid);
+    int rightmaxsum = getmaxsum(v, mid + 1, e);
+    int leftsum = INT_MIN;
+    int rightsum = INT_MIN;
+    int sum = 0;
+    for (int i = mid; i >= s; i--)
+    {
+        sum += v.at(i);
+        if (sum > leftsum)
+        {
+            leftsum = sum;
+        }
+    }
+    sum = 0;
+    for (int i = mid + 1; i <= e; i++)
+    {
+        sum += v.at(i);
+        if (sum > rightsum)
+        {
+            rightsum = sum;
+        }
+    }
+    int overlappsum = leftsum + rightsum;
+    return max(overlappsum, max(leftsum, rightsum));
+}
+int maxsumans(vector<int> v)
+{
+    return getmaxsum(v, 0, v.size() - 1);
+}
+int main()
+{
+    vector<int> v;
+    int n;
+    cin >> n;
+    for (int i = 0; i < n; i++)
+    {
+        int x;
+        cin >> x;
+        v.push_back(x);
+    }
+    int maxsum = maxsumans(v);
+    cout << maxsum << endl;
+}
