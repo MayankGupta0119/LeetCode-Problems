@@ -18,19 +18,13 @@ int getmaxsum(vector<int> v, int s, int e)
     for (int i = mid; i >= s; i--)
     {
         sum += v.at(i);
-        if (sum > leftsum)
-        {
-            leftsum = sum;
-        }
+        leftsum = max(leftsum,sum);
     }
     sum = 0;
     for (int i = mid + 1; i <= e; i++)
     {
         sum += v.at(i);
-        if (sum > rightsum)
-        {
-            rightsum = sum;
-        }
+        rightsum = max(rightsum,sum);
     }
     int overlappsum = leftsum + rightsum;
     return max(overlappsum, max(leftsum, rightsum));
