@@ -1,0 +1,39 @@
+#include <vector>
+#include <iostream>
+using namespace std;
+void getsubseq(int ind, vector<int> ds, vector<vector<int>> &ans, vector<int> a)
+{
+    if (ind == a.size())
+    {
+        ans.push_back(ds);
+        return;
+    }
+    ds.push_back(a.at(ind));
+    getsubseq(ind + 1, ds, ans, a);
+    ds.pop_back();
+    getsubseq(ind + 1, ds, ans, a);
+    ds.push_back(a.at(ind));
+}
+int main()
+{
+    vector<vector<int>> ans;
+    vector<int> ds;
+    int n;
+    cin >> n;
+    vector<int> a;
+    for (int i = 0; i < n; i++)
+    {
+        int x;
+        cin >> x;
+        a.push_back(x);
+    }
+    getsubseq(0, ds, ans, a);
+    for (auto it : ans)
+    {
+        for (auto i : it)
+        {
+            cout << i << " ";
+        }
+        cout << endl;
+    }
+}
