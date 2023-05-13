@@ -1,0 +1,42 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+void f(int ind, vector<int> &v, int n, vector<int> &helper)
+{
+    if (ind >= n)
+    {
+        if (helper.size() == 0)
+        {
+            cout << "{}" << endl;
+        }
+        else
+        {
+            for (int i = 0; i < helper.size(); i++)
+            {
+                cout << helper.at(i) << " ";
+            }
+            cout << endl;
+        }
+        return;
+    }
+    helper.push_back(v.at(ind));
+    f(ind + 1, v, n, helper);
+    helper.pop_back();
+    f(ind + 1, v, n, helper);
+}
+int main()
+{
+    vector<int> v;
+    vector<int> helper;
+    cout << "enter the size of the array: ";
+    int n;
+    cin >> n;
+    cout << "enter the elements:";
+    for (int i = 0; i < n; i++)
+    {
+        int x;
+        cin >> x;
+        v.push_back(x);
+    }
+    f(0, v, n, helper);
+}
