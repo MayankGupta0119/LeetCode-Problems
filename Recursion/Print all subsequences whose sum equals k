@@ -1,0 +1,48 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+void printsum(int ind, vector<int> ds, vector<int> v, int s, int k)
+{
+    if (ind == v.size())
+    {
+        if (s == k)
+        {
+            for (auto i : ds)
+            {
+                cout << i << " ";
+            }
+            cout << endl;
+        }
+        return;
+    }
+
+    // include the current element in the subset
+    ds.push_back(v[ind]);
+    s += v[ind];
+    if (s <= k) // add this check
+    {
+        printsum(ind + 1, ds, v, s, k);
+    }
+    ds.pop_back();
+    s -= v[ind];
+
+    // exclude the current element from the subset
+    printsum(ind + 1, ds, v, s, k);
+}
+
+int main()
+{
+    int n;
+    cin >> n;
+    vector<int> v(n);
+    for (int i = 0; i < n; i++)
+    {
+        cin >> v[i];
+    }
+    int k;
+    cin >> k;
+    vector<int> ds;
+    printsum(0, ds, v, 0, k);
+    return 0;
+}
