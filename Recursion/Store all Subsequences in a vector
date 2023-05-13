@@ -12,7 +12,6 @@ void getsubseq(int ind, vector<int> ds, vector<vector<int>> &ans, vector<int> a)
     getsubseq(ind + 1, ds, ans, a);
     ds.pop_back();
     getsubseq(ind + 1, ds, ans, a);
-    ds.push_back(a.at(ind));
 }
 int main()
 {
