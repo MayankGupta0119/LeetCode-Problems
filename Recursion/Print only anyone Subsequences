@@ -1,0 +1,48 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+bool printanyone(int ind, vector<int> ds, int s, int k, vector<int> v)
+{
+    if (ind == v.size())
+    {
+        if (s == k)
+        {
+            for (auto i : ds)
+            {
+                cout << i << " ";
+            }
+            cout << endl;
+            return true;
+        }
+        return false;
+    }
+    s += v.at(ind);
+    ds.push_back(v.at(ind));
+    if (printanyone(ind + 1, ds, s, k, v) == true)
+    {
+        return true;
+    }
+    s -= v.at(ind);
+    ds.pop_back();
+    if (printanyone(ind + 1, ds, s, k, v) == true)
+    {
+        return true;
+    }
+    return false;
+}
+int main()
+{
+    int n;
+    cin >> n;
+    vector<int> v;
+    for (int i = 0; i < n; i++)
+    {
+        int x;
+        cin >> x;
+        v.push_back(x);
+    }
+    int k;
+    cin >> k;
+    vector<int> ds;
+    printanyone(0, ds, 0, k, v);
+}
