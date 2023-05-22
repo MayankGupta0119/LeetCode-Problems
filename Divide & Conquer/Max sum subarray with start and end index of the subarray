@@ -1,0 +1,89 @@
+#include <iostream>
+#include <climits>
+#include <algorithm>
+#include <vector>
+using namespace std;
+
+void getmaxsum(vector<int> v, int s, int e, int &maxsum, int &start, int &end)
+{
+    if (s == e)
+    {
+        maxsum = v.at(s);
+        start = s;
+        end = e;
+        return;
+    }
+    int mid = s + (e - s) / 2;
+    int leftmaxsum, leftstart, leftend;
+    getmaxsum(v, s, mid, leftmaxsum, leftstart, leftend);
+    int rightmaxsum, rightstart, rightend;
+    getmaxsum(v, mid + 1, e, rightmaxsum, rightstart, rightend);
+    int leftsum = INT_MIN;
+    int rightsum = INT_MIN;
+    int sum = 0;
+    int overlapstart, overlapend;
+    for (int i = mid; i >= s; i--)
+    {
+        sum += v.at(i);
+        if (sum > leftsum)
+        {
+            leftsum = sum;
+            overlapstart = i;
+        }
+    }
+    sum = 0;
+    for (int i = mid + 1; i <= e; i++)
+    {
+        sum += v.at(i);
+        if (sum > rightsum)
+        {
+            rightsum = sum;
+            overlapend = i;
+        }
+    }
+    int overlapsum = leftsum + rightsum;
+    if (leftmaxsum >= rightmaxsum && leftmaxsum >= overlapsum)
+    {
+        maxsum = leftmaxsum;
+        start = leftstart;
+        end = leftend;
+    }
+    else if (rightmaxsum >= leftmaxsum && rightmaxsum >= overlapsum)
+    {
+        maxsum = rightmaxsum;
+        start = rightstart;
+        end = rightend;
+    }
+    else
+    {
+        maxsum = overlapsum;
+        start = overlapstart;
+        end = overlapend;
+    }
+}
+
+int maxsumans(vector<int> v, int &start, int &end)
+{
+    int maxsum;
+    getmaxsum(v, 0, v.size() - 1, maxsum, start, end);
+    return maxsum;
+}
+
+int main()
+{
+    vector<int> v;
+    int n;
+    cin >> n;
+    for (int i = 0; i < n; i++)
+    {
+        int x;
+        cin >> x;
+        v.push_back(x);
+    }
+    int start, end;
+    int maxsum = maxsumans(v, start, end);
+    cout << maxsum << endl;
+    cout << "starting index of max subarray = " << start << endl;
+    cout << "ending index of max subarray = " << end << endl;
+    return 0;
+}
