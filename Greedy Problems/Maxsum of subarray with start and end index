@@ -1,0 +1,54 @@
+#include <iostream>
+#include <vector>
+#include <climits>
+#include <algorithm>
+using namespace std;
+
+void get_max_sum_subarray(vector<int> v)
+{
+    int sum = 0;
+    int max_sum = INT_MIN;
+    int start_index = 0;
+    int end_index = 0;
+    int temp_start_index = 0;
+
+    for (int i = 0; i < v.size(); i++)
+    {
+        sum += v[i];
+
+        if (sum > max_sum)
+        {
+            max_sum = sum;
+            start_index = temp_start_index;
+            end_index = i;
+        }
+
+        if (sum < 0)
+        {
+            sum = 0;
+            temp_start_index = i + 1;
+        }
+    }
+
+    cout << "Maximum sum of subarray: " << max_sum << endl;
+    cout << "Start index: " << start_index << endl;
+    cout << "End index: " << end_index << endl;
+}
+
+int main()
+{
+    int n;
+    cin >> n;
+    vector<int> v;
+
+    for (int i = 0; i < n; i++)
+    {
+        int x;
+        cin >> x;
+        v.push_back(x);
+    }
+
+    get_max_sum_subarray(v);
+
+    return 0;
+}
