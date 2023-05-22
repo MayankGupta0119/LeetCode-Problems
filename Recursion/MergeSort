@@ -1,0 +1,70 @@
+#include <iostream>
+using namespace std;
+void merge(int *a, int s, int e)
+{
+    int mid = s + (e - s) / 2;
+    int len1 = mid - s + 1;
+    int len2 = e - mid;
+    int mainindex = s;
+    int *first = new int[len1];
+    int *second = new int(len2);
+    for (int i = 0; i < len1; i++)
+    {
+        first[i] = a[mainindex++];
+    }
+    mainindex = mid + 1;
+    for (int i = 0; i < len2; i++)
+    {
+        second[i] = a[mainindex++];
+    }
+    int index1 = 0;
+    int index2 = 0;
+    mainindex = s;
+    while (index1 < len1 && index2 < len2)
+    {
+        if (first[index1] < second[index2])
+        {
+            a[mainindex++] = first[index1++];
+        }
+        else
+        {
+            a[mainindex++] = second[index2++];
+        }
+    }
+    while (index1 < len1)
+    {
+        a[mainindex++] = first[index1++];
+    }
+    while (index2 < len2)
+    {
+        a[mainindex++] = second[index2++];
+    }
+    delete[] first;
+    delete[] second;
+}
+void mergesort(int *a, int s, int e)
+{
+    if (s >= e)
+    {
+        return;
+    }
+    int mid = s + (e - s) / 2;
+    mergesort(a, s, mid);
+    mergesort(a, mid + 1, e);
+    merge(a, s, e);
+}
+int main()
+{
+    int n;
+    cin >> n;
+    int a[n];
+    for (int i = 0; i < n; i++)
+    {
+        cin >> a[i];
+    }
+    mergesort(a, 0, n - 1);
+    for (int i = 0; i < n; i++)
+    {
+        cout << a[i] << " ";
+    }
+}
