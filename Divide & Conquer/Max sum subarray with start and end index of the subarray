@@ -3,69 +3,67 @@
 #include <algorithm>
 #include <vector>
 using namespace std;
-
-void getmaxsum(vector<int> v, int s, int e, int &maxsum, int &start, int &end)
+void getsum(vector<int> v, int s, int e, int &maxsum, int &si, int &ei)
 {
     if (s == e)
     {
-        maxsum = v.at(s);
-        start = s;
-        end = e;
+        maxsum = v[s];
+        si = s;
+        ei = e;
         return;
     }
+    int leftmaxsum, ls, le;
     int mid = s + (e - s) / 2;
-    int leftmaxsum, leftstart, leftend;
-    getmaxsum(v, s, mid, leftmaxsum, leftstart, leftend);
-    int rightmaxsum, rightstart, rightend;
-    getmaxsum(v, mid + 1, e, rightmaxsum, rightstart, rightend);
-    int leftsum = INT_MIN;
-    int rightsum = INT_MIN;
+    getsum(v, s, mid, leftmaxsum, ls, le);
+    int rightmaxsum, rs, re;
+    getsum(v, mid + 1, e, rightmaxsum, rs, re);
     int sum = 0;
-    int overlapstart, overlapend;
+    int os, oe;
+    int lsum = INT_MIN;
+    int rsum = INT_MIN;
     for (int i = mid; i >= s; i--)
     {
-        sum += v.at(i);
-        if (sum > leftsum)
+        sum += v[i];
+        if (sum > lsum)
         {
-            leftsum = sum;
-            overlapstart = i;
+            lsum = sum;
+            os = i;
         }
     }
     sum = 0;
     for (int i = mid + 1; i <= e; i++)
     {
-        sum += v.at(i);
-        if (sum > rightsum)
+        sum += v[i];
+        if (sum > rsum)
         {
-            rightsum = sum;
-            overlapend = i;
+            rsum = sum;
+            oe = i;
         }
     }
-    int overlapsum = leftsum + rightsum;
-    if (leftmaxsum >= rightmaxsum && leftmaxsum >= overlapsum)
+    int oversum = lsum + rsum;
+    if (leftmaxsum >= rightmaxsum && leftmaxsum >= oversum)
     {
         maxsum = leftmaxsum;
-        start = leftstart;
-        end = leftend;
+        si = ls;
+        ei = le;
     }
-    else if (rightmaxsum >= leftmaxsum && rightmaxsum >= overlapsum)
+    else if (rightmaxsum >= leftmaxsum && rightmaxsum >= oversum)
     {
         maxsum = rightmaxsum;
-        start = rightstart;
-        end = rightend;
+        si = rs;
+        ei = re;
     }
     else
     {
-        maxsum = overlapsum;
-        start = overlapstart;
-        end = overlapend;
+        maxsum = oversum;
+        si = os;
+        ei = oe;
     }
 }
-
-int maxsumans(vector<int> v, int &start, int &end)
+int maxsumans(vector<int> v, int s, int e, int &si, int &ei)
 {
-    int maxsum;
-    getmaxsum(v, 0, v.size() - 1, maxsum, start, end);
+    int maxsum = 0;
+    getsum(v, 0, v.size() - 1, maxsum, si, ei);
     return maxsum;
 }
 
@@ -81,7 +79,7 @@ int main()
         v.push_back(x);
     }
     int start, end;
-    int maxsum = maxsumans(v, start, end);
+    int maxsum = maxsumans(v, 0, v.size() - 1, start, end);
     cout << maxsum << endl;
     cout << "starting index of max subarray = " << start << endl;
     cout << "ending index of max subarray = " << end << endl;
