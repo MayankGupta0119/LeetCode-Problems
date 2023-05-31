@@ -1,0 +1,35 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+int getsub(int idx, int s, vector<int> arr, int k)
+{
+    if (idx == arr.size())
+    {
+        if (s == k)
+        {
+            return 1;
+        }
+        return 0;
+    }
+    s += arr[idx];
+    int left = getsub(idx + 1, s, arr, k);
+    s -= arr[idx];
+    int right = getsub(idx + 1, s, arr, k);
+    return left + right;
+}
+int main()
+{
+    int n;
+    cin >> n;
+    vector<int> arr;
+    for (int i = 0; i < n; i++)
+    {
+        int x;
+        cin >> x;
+        arr.push_back(x);
+    }
+    int k;
+    cin >> k;
+    cout << getsub(0, 0, arr, k);
+    return 0;
+}
