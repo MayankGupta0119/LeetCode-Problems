@@ -1,0 +1,60 @@
+Given an array of distinct integers candidates and a target integer target, return a list of all unique combinations of candidates 
+where the chosen numbers sum to target. You may return the combinations in any order.
+The same number may be chosen from candidates an unlimited number of times. Two combinations are unique if the frequency 
+of at least one of the chosen numbers is different.
+**************************************************************************************************************************************************
+This problem can also be said like here you have to give all possible subset of the set whose sum equals to target value
+So the vector of vector ans in the code is actually storing all such possible subsets whose equals target value
+**************************************************************************************************************************************************
+Code :
+
+#include <iostream>
+#include <vector>
+using namespace std;
+void getcombsum(int idx, int target, vector<vector<int>> &ans, vector<int> &ds, vector<int> arr)
+{
+    if (idx == arr.size())
+    {
+        if (target == 0)
+        {
+            ans.push_back(ds);
+        }
+        return;
+    }
+    // picking element if the current element in the array is less then the target value
+    // keeping the index same as we can take element again
+    // pop back i.e. on backtrack so that the notpick operation can be done on real image
+    if (arr[idx] <= target)
+    {
+        ds.push_back(arr[idx]);
+        getcombsum(idx, target - arr[idx], ans, ds, arr);
+        ds.pop_back();
+    }
+    // not picking the element, therefore increasing the index
+    getcombsum(idx + 1, target, ans, ds, arr);
+}
+int main()
+{
+    int n;
+    cin >> n;
+    vector<int> arr;
+    for (int i = 0; i < n; i++)
+    {
+        int x;
+        cin >> x;
+        arr.push_back(x);
+    }
+    vector<vector<int>> ans;
+    vector<int> ds;
+    int target;
+    cin >> target;
+    getcombsum(0, target, ans, ds, arr);
+    for (int i = 0; i < ans.size(); i++)
+    {
+        for (int j = 0; j < ans[i].size(); j++)
+        {
+            cout << ans[i][j] << " ";
+        }
+        cout << endl;
+    }
+}
