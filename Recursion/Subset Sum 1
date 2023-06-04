@@ -1,0 +1,40 @@
+Given List of integers print all sum of subsets in it
+
+Code:
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+void getsubset(int idx, int sum, vector<int> arr, vector<int> &ans)
+{
+    if (idx == arr.size())
+    {
+        ans.push_back(sum);
+        return;
+    }
+    // picking up
+    getsubset(idx + 1, sum + arr.at(idx), arr, ans);
+    // not picking up
+    getsubset(idx + 1, sum, arr, ans);
+}
+int main()
+{
+    int n;
+    cin >> n;
+    vector<int> arr;
+    for (int i = 0; i < n; i++)
+    {
+        int x;
+        cin >> x;
+        arr.push_back(x);
+    }
+    vector<int> ans;
+    getsubset(0, 0, arr, ans);
+    sort(ans.begin(), ans.end());
+    for (int i : ans)
+    {
+        cout << i << " ";
+    }
+    cout << endl;
+}
