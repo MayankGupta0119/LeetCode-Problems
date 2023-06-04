@@ -1,0 +1,58 @@
+Given an integer array nums that may contain duplicates, return all possible 
+subsets(the power set).
+
+The solution set must not contain duplicate subsets. Return the solution in any order.
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+void getsubset2(int idx, vector<int> arr, vector<vector<int>> &ans, vector<int> &ds)
+{
+    if (ds.size() == 0)
+    {
+        cout << "[]" << endl;
+    }
+    else
+    {
+        ans.push_back(ds);
+    }
+    for (int i = idx; i < arr.size(); i++)
+    {
+        if (i > idx && arr[i] == arr[i - 1])
+        {
+            continue;
+        }
+        else
+        {
+            ds.push_back(arr[i]);
+            getsubset2(i + 1, arr, ans, ds);
+            ds.pop_back();
+        }
+    }
+}
+int main()
+{
+    int n;
+    cin >> n;
+    vector<int> arr;
+    for (int i = 0; i < n; i++)
+    {
+        int x;
+        cin >> x;
+        arr.push_back(x);
+    }
+    vector<vector<int>> ans;
+    vector<int> ds;
+    sort(arr.begin(),arr.end()); // very very important to sort the array before function call
+    // since we had to check for duplicate elements ahead therefore need to sort it before passing in fn call
+    getsubset2(0, arr, ans, ds);
+    for (int i = 0; i < ans.size(); i++)
+    {
+        for (int j = 0; j < ans[i].size(); j++)
+        {
+            cout << ans[i][j] << " ";
+        }
+        cout << endl;
+    }
+}
