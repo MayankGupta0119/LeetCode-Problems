@@ -1,0 +1,39 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+void getpermut(int idx, vector<int> v, vector<vector<int>> &ans)
+{
+    if (idx == v.size())
+    {
+        ans.push_back(v);
+        return;
+    }
+    for (int i = idx; i < v.size(); i++)
+    {
+        swap(v[idx], v[i]);
+        getpermut(idx + 1, v, ans);
+        swap(v[idx], v[i]);
+    }
+}
+int main()
+{
+    int n;
+    cin >> n;
+    vector<int> v;
+    for (int i = 0; i < n; i++)
+    {
+        int x;
+        cin >> x;
+        v.push_back(x);
+    }
+    vector<vector<int>> ans;
+    getpermut(0, v, ans);
+    for (auto i : ans)
+    {
+        for (auto j : i)
+        {
+            cout << j << " ";
+        }
+        cout << endl;
+    }
+}
