@@ -1,0 +1,38 @@
+Given an integer array nums, return true if you can partition the array into two subsets such that the sum of the elements in both subsets
+is equal or false otherwise.
+
+Code:
+
+class Solution {
+public:
+    bool issubseq(int ind, int target, vector<vector<int>> &dp, vector<int> &nums){
+        if(target == 0){
+            return true;
+        }
+        if(ind == 0){
+            return target == nums[0];
+        }
+        if(dp[ind][target] != -1){
+            return dp[ind][target];
+        }
+        bool not_take = issubseq(ind-1,target,dp,nums);
+        bool take = false;
+        if(nums[ind] <= target){
+            take = issubseq(ind-1,target-nums[ind],dp,nums);
+        }
+        return dp[ind][target] = take || not_take;
+    }
+    bool canPartition(vector<int>& nums) {
+        int totalsum = 0;
+        for(int i = 0;i<nums.size();i++){
+            totalsum += nums.at(i);
+        }
+        if(totalsum%2 != 0){
+            return false;
+        }
+        int sum = totalsum/2;
+        vector<vector<int>> dp(nums.size(),vector<int>(sum+1,-1));
+        return issubseq(nums.size()-1,sum,dp,nums);
+        
+    }
+};
