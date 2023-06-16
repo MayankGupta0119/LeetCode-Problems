@@ -1,0 +1,56 @@
+
+A thief is robbing a store and can carry a maximal weight of W into his knapsack.
+There are N items and the ith item weighs wi and is of value vi. Considering the constraints of the maximum weight that a
+knapsack can carry, you have to find and return the maximum value that a thief can generate by stealing items.
+
+Code:
+*******************************************************************************************************************************************************************
+Memoization
+#include <bits/stdc++.h> 
+int calmaxsum(int ind, int W,vector<vector<int>> &dp, vector<int> &value, vector<int> &weight){
+	if(ind == 0){
+		if(weight[0] <= W){
+			return value[0];
+		}
+		else{
+			return 0;
+		}
+	}
+	if(dp[ind][W] != -1){
+		return dp[ind][W];
+	}
+	int not_take = 0+calmaxsum(ind-1,W,dp,value,weight);
+	int take = INT_MIN;
+	if(weight[ind] <= W){
+		take = value[ind]+calmaxsum(ind-1,W-weight[ind],dp,value,weight);
+	}
+	return dp[ind][W] = max(take,not_take);
+}
+int knapsack(vector<int> weight, vector<int> value, int n, int maxWeight) 
+{
+	vector<vector<int>> dp(n, vector<int> (maxWeight+1,0));
+	return calmaxsum(n-1,maxWeight,dp,value,weight);
+}
+********************************************************************************************************************************************************************
+Tabulation
+
+#include <bits/stdc++.h> 
+int knapsack(vector<int> weight, vector<int> value, int n, int maxWeight) 
+{
+	vector<vector<int>> dp(n, vector<int> (maxWeight+1,0));
+	for(int W = weight[0];W<=maxWeight;W++){
+		dp[0][W] = value[0];
+	}
+	for(int ind = 1;ind<n;ind++){
+		for(int W = 0;W<= maxWeight;W++){
+			int not_take = 0+dp[ind-1][W];
+			int take = INT_MIN;
+			if(weight[ind]<= W){
+				take = value[ind]+dp[ind-1][W-weight[ind]];
+			}
+			dp[ind][W] = max(not_take,take);
+		}
+	}
+	return dp[n-1][maxWeight];
+}
+**************************************************************************************************************************************************************************
