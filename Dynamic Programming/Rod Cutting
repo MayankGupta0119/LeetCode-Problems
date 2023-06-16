@@ -1,0 +1,53 @@
+Problem Statement
+Given a rod of length 'N' units. The rod can be cut into different sizes and each size has a cost associated with it.
+Determine the maximum cost obtained by cutting the rod and selling its pieces.
+
+Memoization:
+
+#include <vector>
+#include <algorithm>
+int getmaxprice(int ind, int n, vector<vector<int>> &dp, vector<int> &price){
+	if(ind == 0){
+		return n*price[0];
+	}
+	if(dp[ind][n] != -1){
+		return dp[ind][n];
+	}
+	int not_take = 0+getmaxprice(ind-1,n,dp,price);
+	int take = INT_MIN;
+	int rodlength = ind+1;
+	if(rodlength <= n){
+		take = price[ind]+getmaxprice(ind,n-rodlength,dp,price);
+	}
+	return dp[ind][n] = max(take,not_take);
+}
+int cutRod(vector<int> &price, int n)
+{
+	// Write your code here.
+	vector<vector<int>> dp(n, vector<int> (n+1,-1));
+	return getmaxprice(price.size()-1,n,dp,price);
+}
+*********************************************************************************************************************************************************************
+Tabulation:
+int cutRod(vector<int> &price, int n)
+{
+	// Write your code here.
+	vector<vector<int>> dp(n, vector<int> (n+1,0));
+	for(int N = 0;N<=n;N++){
+		dp[0][N] = N*price[0];
+	}
+	for(int ind = 1;ind<n;ind++){
+		for(int N = 0;N<=n;N++){
+			int not_take = 0+dp[ind-1][N];
+			int take = INT_MIN;
+			int rodlength = ind+1;
+			if(rodlength<= N){
+				take = price[ind]+dp[ind][N-rodlength];
+			}
+			dp[ind][N] = max(take,not_take);
+		}
+	}
+	return dp[n-1][n];
+}
+
+
