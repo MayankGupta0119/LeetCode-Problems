@@ -23,6 +23,7 @@ Output:
 ]
 
 Code:
+Note: If you want to print all combinations then first sort the given array before fuction call, since we have not to take duplicate elements
 
 #include <vector>
 class Solution {
