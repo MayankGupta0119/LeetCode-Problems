@@ -1,0 +1,80 @@
+#include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
+void getlps(string s, vector<int> &v)
+{
+    v[0] = 0;
+    int i = 1;
+    int j = 0;
+    while (i < s.length())
+    {
+        if (s[i] == s[j])
+        {
+            v[i] = j + 1;
+            j++;
+            i++;
+        }
+        else
+        {
+            if (j != 0)
+            {
+                j = v[j - 1];
+            }
+            else
+            {
+                v[i] = 0;
+                i++;
+            }
+        }
+    }
+}
+bool kmpsearch(string text, string pattern, vector<int> lps)
+{
+    int lentext = text.length();
+    int lenpat = pattern.length();
+    int i = 0, j = 0;
+    while (i < lentext && j < lenpat)
+    {
+        if (text[i] == pattern[j])
+        {
+            i++;
+            j++;
+        }
+        else
+        {
+            if (j != 0)
+            {
+                j = lps[j - 1];
+            }
+            else
+            {
+                i++;
+            }
+        }
+    }
+    if (j == lenpat)
+    {
+        return true;
+    }
+    return false;
+}
+int main()
+{
+    string s;
+    cout << "enter string = ";
+    cin >> s;
+    string pattern;
+    cout << "enter pattern to be searched = ";
+    cin >> pattern;
+    vector<int> lps(s.length(), 0);
+    getlps(s, lps);
+    if (kmpsearch(s, pattern, lps))
+    {
+        cout << "Found" << endl;
+    }
+    else
+    {
+        cout << "Not Found" << endl;
+    }
+}
