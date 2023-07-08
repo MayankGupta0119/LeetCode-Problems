@@ -41,6 +41,10 @@ int main()
         {
             for (int j = 0; j < v; j++)
             {
+                if (matrix[i][via] == 1e9 || matrix[via][j] == 1e9)
+                {
+                    continue;
+                }
                 matrix[i][j] = min(matrix[i][j], matrix[i][via] + matrix[via][j]);
             }
         }
