@@ -1,0 +1,67 @@
+#include <iostream>
+#include <queue>
+#include <vector>
+using namespace std;
+int main()
+{
+    int v;
+    cout << "enter number of vertexes: ";
+    cin >> v;
+    vector<vector<int>> adj[v];
+    vector<int> dist(v);
+    int s;
+    cout << "enter source: ";
+    cin >> s;
+    dist[s] = 0;
+    for (int i = 0; i < v; i++)
+    {
+        dist[i] = 1e9;
+    }
+    for (int i = 0; i < v; i++)
+    {
+        cout << "enter number of adjacent vertex of " << i << ": ";
+        int n;
+        cin >> n;
+        for (int j = 0; j < n; j++)
+        {
+            int node, dist;
+            cout << "enter node,distance/weight: ";
+            cin >> node >> dist;
+            adj[i].push_back({node, dist});
+        }
+    }
+    // printing the adjacency list
+    for (int i = 0; i < v; i++)
+    {
+        cout << "adjacent vertex of " << i << "are: ";
+        for (auto it : adj[i])
+        {
+            cout << "{" << it[0] << "," << it[1] << "}";
+        }
+        cout << endl;
+    }
+    // dijkstra algo
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+    pq.push({s, 0});
+    while (!pq.empty())
+    {
+        int dis = pq.top().second;
+        int node = pq.top().first;
+        pq.pop();
+        for (auto it : adj[node])
+        {
+            int edgeweight = it[1];
+            int adjnode = it[0];
+            if (dis + edgeweight < dist[adjnode])
+            {
+                dist[adjnode] = dis + edgeweight;
+                pq.push({adjnode, dist[adjnode]});
+            }
+        }
+    }
+    dist[s] = 0;
+    for (int i = 0; i < v; i++)
+    {
+        cout << "distance of node " << s << "from node " << i << " = " << dist[i] << endl;
+    }
+}
