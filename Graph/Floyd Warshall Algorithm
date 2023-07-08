@@ -1,0 +1,75 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+int main()
+{
+    int v;
+    cout << "enter number of vertex: ";
+    cin >> v;
+    vector<vector<int>> matrix(v, vector<int>(v));
+    cout << "enter adjancecy matrix: " << endl;
+    for (int i = 0; i < v; i++)
+    {
+        for (int j = 0; j < v; j++)
+        {
+            cin >> matrix[i][j];
+        }
+    }
+    cout << "Input matrix: " << endl;
+    for (int i = 0; i < v; i++)
+    {
+        for (int j = 0; j < v; j++)
+        {
+            cout << matrix[i][j] << "  ";
+        }
+        cout << endl;
+    }
+    cout << endl;
+    for (int i = 0; i < v; i++)
+    {
+        for (int j = 0; j < v; j++)
+        {
+            if (matrix[i][j] == -1)
+            {
+                matrix[i][j] = 1e9;
+            }
+        }
+    }
+    for (int via = 0; via < v; via++)
+    {
+        for (int i = 0; i < v; i++)
+        {
+            for (int j = 0; j < v; j++)
+            {
+                matrix[i][j] = min(matrix[i][j], matrix[i][via] + matrix[via][j]);
+            }
+        }
+    }
+    for (int i = 0; i < v; i++)
+    {
+        if (matrix[i][i] < 0)
+        {
+            cout << "negative cycle" << endl;
+            return 0;
+        }
+    }
+    for (int i = 0; i < v; i++)
+    {
+        for (int j = 0; j < v; j++)
+        {
+            if (matrix[i][j] == 1e9)
+            {
+                matrix[i][j] = -1;
+            }
+        }
+    }
+    cout << "final cost matrix: " << endl;
+    for (int i = 0; i < v; i++)
+    {
+        for (int j = 0; j < v; j++)
+        {
+            cout << matrix[i][j] << "  ";
+        }
+        cout << endl;
+    }
+}
