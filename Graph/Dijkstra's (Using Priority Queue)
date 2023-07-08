@@ -42,11 +42,11 @@ int main()
     }
     // dijkstra algo
     priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
-    pq.push({s, 0});
+    pq.push({0, s});
     while (!pq.empty())
     {
-        int dis = pq.top().second;
-        int node = pq.top().first;
+        int dis = pq.top().first;
+        int node = pq.top().second;
         pq.pop();
         for (auto it : adj[node])
         {
@@ -55,13 +55,13 @@ int main()
             if (dis + edgeweight < dist[adjnode])
             {
                 dist[adjnode] = dis + edgeweight;
-                pq.push({adjnode, dist[adjnode]});
+                pq.push({dist[adjnode], adjnode});
             }
         }
     }
     dist[s] = 0;
     for (int i = 0; i < v; i++)
     {
-        cout << "distance of node " << s << "from node " << i << " = " << dist[i] << endl;
+        cout << "distance of node " << s << " from node " << i << " = " << dist[i] << endl;
     }
 }
