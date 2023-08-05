@@ -1,0 +1,62 @@
+//Creating hashmap for strings
+
+#include <iostream>
+#include <map>
+using namespace std;
+int main()
+{
+    string s;
+    cin >> s;
+    map<char, int> hash;
+    for (auto ch : s)
+    {
+        hash[ch]++;
+    }
+    int q;
+    cin >> q;
+    while (q--)
+    {
+        char ch;
+        cin >> ch;
+        cout << hash[ch] << endl;
+    }
+    return 0;
+}
+
+for integer array:
+
+#include <iostream>
+#include <map>
+using namespace std;
+int main()
+{
+#ifndef ONLINE_JUDGE
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+#endif
+    int n;
+    cin >> n;
+    int arr[n];
+    for (int i = 0; i < n; i++)
+    {
+        cin >> arr[i];
+    }
+    map<int, int> hash;
+    for (auto i : arr)
+    {
+        hash[i]++;
+    }
+    int q;
+    cin >> q;
+    for (auto it : hash)
+    {
+        cout << it.first << "-->"
+             << it.second << endl;
+    }
+    while (q--)
+    {
+        int num;
+        cin >> num;
+        cout << hash[num] << endl;
+    }
+}
