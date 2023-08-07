@@ -4,19 +4,27 @@
 using namespace std;
 int main()
 {
-    vector<int> v = {1, 2, 3, 4, 5, 6, 7};
-    int k = 3;
-    k = k % v.size();
+    int n;
+    cin >> n;
+    vector<int> v;
+    for (int i = 0; i < n; i++)
+    {
+        int x;
+        cin >> x;
+        v.emplace_back(x);
+    }
+    int k;
+    cin >> k;
+    k = k % n;
     vector<int> v1(v.begin(), v.end());
     // right rotate
     reverse(v.begin(), v.end());
     reverse(v.begin(), v.begin() + k);
     reverse(v.begin() + k, v.end());
     // left rotate
+    reverse(v1.begin(), v1.begin() + k);
+    reverse(v1.begin() + k, v1.end());
     reverse(v1.begin(), v1.end());
-    reverse(v1.begin(), v1.begin() + k + 1);
-    reverse(v1.begin() + k + 1, v1.end());
-    cour<<"right"<<endl;
     for (auto it : v)
     {
         cout << it << " ";
