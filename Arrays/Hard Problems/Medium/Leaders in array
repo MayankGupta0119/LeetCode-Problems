@@ -1,0 +1,16 @@
+An element is called a Superior Element if it is greater than all the elements present to its right.
+You must return a sorted array of all Superior Elements in the array ‘A’.
+
+vector<int> superiorElements(vector<int>&a) {
+    // Write your code here.
+    int maxi = INT_MIN;
+    vector<int> ans;
+    for(int i = a.size()-1;i>= 0;i--){
+        if(a[i] > maxi){
+            ans.push_back(a[i]);
+            maxi = a[i];
+        }
+    }
+    return ans;
+    
+}
