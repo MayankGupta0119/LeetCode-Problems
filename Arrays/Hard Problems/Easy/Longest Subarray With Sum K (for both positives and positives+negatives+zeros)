@@ -1,0 +1,22 @@
+#include <bits/stdc++.h> 
+int getLongestSubarray(vector<int>& nums, int k){
+    // Write your code here
+    unordered_map<long long, int> m;
+    long long sum = 0;
+    int maxlen = 0;
+    for(int i = 0;i<nums.size();i++){
+        sum += nums[i];
+        if(sum == k){
+            maxlen = max(maxlen,i+1);
+        }
+        int remain = sum-k;
+        if(m.find(remain) != m.end()){
+            int len = i-m[remain];
+            maxlen = max(maxlen,len);
+        }
+        if(m.find(sum) == m.end()){
+            m[sum] = i;
+        }
+    }
+    return maxlen;
+}
