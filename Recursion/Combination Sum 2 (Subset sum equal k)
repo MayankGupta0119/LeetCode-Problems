@@ -37,10 +37,10 @@ public:
             if(i > ind && arr[i] == arr[i-1]){
                 continue;
             }
-            if(arr[i]> target){
-            ds.push_back(arr[i]);
-            helper(i+1,target-arr[i],arr,ans,ds);
-            ds.pop_back();
+            if(arr[i] <= target){
+                ds.push_back(arr[i]);
+                helper(i+1,target-arr[i],arr,ans,ds);
+                ds.pop_back();
             }
         }
     }
