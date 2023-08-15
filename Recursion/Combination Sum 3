@@ -1,0 +1,32 @@
+Find all valid combinations of k numbers that sum up to n such that the following conditions are true:
+
+Only numbers 1 through 9 are used.
+Each number is used at most once.
+Return a list of all possible valid combinations. The list must not contain the same combination twice, and the combinations may be returned in any order.
+
+class Solution {
+public:
+    void get_comb(int ind,int target,int k, vector<vector<int>> &ans, vector<int> &ds,vector<int> nums){
+        if(target == 0 && ds.size() == k){
+            ans.push_back(ds);
+            return;
+        }
+        for(int i = ind;i<nums.size();i++){
+            if(i>ind && nums[i] == nums[i-1]){
+                continue;
+            }
+            if(nums[i] <= target){
+                ds.push_back(nums[i]);
+                get_comb(i+1,target-nums[i],k,ans,ds,nums);
+                ds.pop_back();
+            }
+        }
+    }
+    vector<vector<int>> combinationSum3(int k, int n) {
+        vector<int> nums = {1,2,3,4,5,6,7,8,9};
+        vector<vector<int>> ans;
+        vector<int> ds;
+        get_comb(0,n,k,ans,ds,nums);
+        return ans;
+    }
+};
