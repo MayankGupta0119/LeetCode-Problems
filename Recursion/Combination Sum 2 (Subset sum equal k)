@@ -38,11 +38,10 @@ public:
                 continue;
             }
             if(arr[i]> target){
-                break;
-            }
             ds.push_back(arr[i]);
             helper(i+1,target-arr[i],arr,ans,ds);
             ds.pop_back();
+            }
         }
     }
     vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
