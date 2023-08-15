@@ -1,0 +1,33 @@
+You have been given an integer N. Your task is to generate and return all binary strings of length N such
+that there are no consecutive 1's in the string
+
+void getsubstr(int ind,string str,vector<string> &ans,int N){
+    if(ind == N){
+        ans.push_back(str);
+        return;
+    }
+    if(str[ind-1] == '1'){
+        str[ind] = '0';
+        getsubstr(ind+1,str,ans,N);
+    }
+    if(str[ind-1] == '0'){
+        str[ind] = '0';
+        getsubstr(ind+1,str,ans,N);
+        str[ind] = '1';
+        getsubstr(ind+1,str,ans,N);
+    }
+}
+vector<string> generateString(int N) {
+    // Write your code here.
+    vector<string> ans;
+    if(N == 0){
+        return ans;
+    }
+    string str(N,'0');
+    str[0] = '0';
+    getsubstr(1,str,ans,N);
+    str[0] = '1';
+    getsubstr(1,str,ans,N);
+    sort(ans.begin(),ans.end());
+    return ans;
+}
