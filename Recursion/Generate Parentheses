@@ -1,0 +1,26 @@
+Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.
+Example 1:
+Input: n = 3
+Output: ["((()))","(()())","(())()","()(())","()()()"]
+
+class Solution {
+public:
+    void getans(vector<string> &ans, int open, int close, int n, string str){
+        if(n == open && n == close){
+            ans.push_back(str);
+            return;
+        }
+        if(open < n){
+            getans(ans,open+1,close,n,str+'(');
+        }
+        if(close<open){
+            getans(ans,open,close+1,n,str+')');
+        }
+    }
+    vector<string> generateParenthesis(int n) {
+        vector<string> ans;
+        string str = "";
+        getans(ans,0,0,n,str);
+        return ans;
+    }
+};
