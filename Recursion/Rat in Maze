@@ -1,0 +1,28 @@
+Optimized code:
+
+void getpaths(int i, int j, vector<vector<int>> &mat,vector<string> &paths, string moves, int n,int di[], int dj[]
+,vector<vector<int>> &visited){
+    if(i == n-1 && j == n-1){
+        paths.push_back(moves);
+    }
+    string direc = "DLRU";
+    for(int ind = 0;ind<4;ind++){
+        int nexti = i+di[ind];
+        int nextj = j+dj[ind];
+        if(nexti >= 0 && nexti <n && nextj >= 0 && nextj<n && visited[nexti][nextj] == 0 && mat[nexti][nextj] == 1){
+            visited[i][j] = 1;
+            getpaths(nexti,nextj,mat,paths,moves+direc[ind],n,di,dj,visited);
+            visited[i][j] = 0;
+        }
+    }
+}
+vector<string> ratMaze(vector<vector<int>> &mat) {
+    // Write your code here.
+    vector<string> paths;
+    vector<vector<int>> visited(mat.size(),vector<int>(mat.size(),0));
+    string moves = "";
+    int di[] = {1,0,0,-1};
+    int dj[] = {0,-1,1,0};
+    getpaths(0,0,mat,paths,moves,mat.size(),di,dj,visited);
+    return paths;
+}
