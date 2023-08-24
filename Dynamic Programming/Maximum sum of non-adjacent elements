@@ -1,0 +1,29 @@
+Given an array of ‘N’  positive integers, 
+we need to return the maximum sum of the subsequence such that no two elements of the subsequence are adjacent elements in the array.
+#include <bits/stdc++.h> 
+int fn(int ind, vector<int> &nums, vector<int> &dp){
+    if(ind == 0){
+        return nums[0];
+    }
+    if(ind < 0){
+        return 0;
+    }
+    if(dp[ind] != -1){
+        return dp[ind];
+    }
+    int take = nums[ind]+fn(ind-2,nums,dp);
+    int not_take = 0+fn(ind-1,nums,dp);
+    return dp[ind] = max(take,not_take);
+}
+int maximumNonAdjacentSum(vector<int> &nums){
+    int n = nums.size();
+    vector<int> dp(n,-1);
+    // return fn(n-1,nums,dp);
+    dp[0] = nums[0];
+    for(int i = 1;i<n;i++){
+        int take = nums[i]+dp[i-2];
+        int not_take = 0+dp[i-1];
+        dp[i] = max(take,not_take);
+    }
+    return dp[n-1];
+}
