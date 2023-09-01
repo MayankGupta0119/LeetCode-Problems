@@ -1,0 +1,51 @@
+class Solution {
+public:
+    int getnumop(int i, int j, vector<vector<int>> &dp, string s1, string s2){
+        if(i<0){
+            return j+1;
+        }
+        if(j < 0){
+            return i+1;
+        }
+        if(dp[i][j] != -1){
+            return dp[i][j];
+        }
+        if(s1[i] == s2[j]){
+            return dp[i][j] = 0+getnumop(i-1,j-1,dp,s1,s2);
+        }
+        return dp[i][j] = 1+min(getnumop(i,j-1,dp,s1,s2),min(getnumop(i-1,j-1,dp,s1,s2),getnumop(i-1,j,dp,s1,s2)));
+    }
+    int minDistance(string word1, string word2) {
+        int n = word1.length();
+        int m = word2.length();
+        vector<vector<int>> dp(n,vector<int>(m,-1));
+        return getnumop(n-1,m-1,dp,word1,word2);
+    }
+};
+
+Tabulation
+
+int editDistance(string s1, string s2)
+{
+    //write you code here
+    int n = s1.length();
+    int m = s2.length();
+    vector<vector<int>> dp(n+1,vector<int>(m+1,0));
+    for(int i = 0;i<=n;i++){
+        dp[i][0] = i;
+    }
+    for(int j = 0;j<= m;j++){
+        dp[0][j] = j;
+    }
+    for(int i = 1;i<=n;i++){
+        for(int j = 1;j<=m;j++){
+            if(s1[i-1] == s2[j-1]){
+                dp[i][j] = 0+dp[i-1][j-1];
+            }
+            else{
+                dp[i][j] = 1+min(dp[i-1][j-1],min(dp[i-1][j],dp[i][j-1]));
+            }
+        }
+    }
+    return dp[n][m];
+}
